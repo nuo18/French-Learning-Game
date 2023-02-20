@@ -13,7 +13,7 @@ class FlashcardPopup:
         
         # Create labels to display the French word and translation
         self.word_label = tk.Label(self.popup, text='', font=('Arial', 20), bg='#24292e', fg='white')
-        self.translation_label = tk.Label(self.popup, text='', font=('Arial', 16), bg='#24292e', fg='white')
+        self.translation_label = tk.Label(self.popup, text='', font=('Arial', 20), bg='#24292e', fg='white')
         self.word_label.pack(pady=20)
         self.translation_label.pack(pady=10)
         

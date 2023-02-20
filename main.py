@@ -22,9 +22,22 @@ def open_help():
     popup.configure(bg='#24292e')
     popup.geometry('400x600')
     popup.title("Help")
-
-    label = tk.Label(popup, text='Hello, World', bg='#24292e', fg='#ffffff', font=("Helvetica", 18))
+    
+    #Title
+    label = tk.Label(popup, text='Help Section', bg='#24292e', fg='#ffffff', font=("helvetica 30 bold"))
     label.pack(padx=20, pady=20)
+    #Flashcard
+    label2 = tk.Label(popup, text='Click Flashcard to learn new French Words', bg='#24292e', fg='#ffffff', font=("helvetica 18"), wraplength=360, justify="center")
+    label2.pack(padx=20, pady=20)
+    #Translator
+    label3 = tk.Label(popup, text='Click Translator to use the in-built French to English Translator', bg='#24292e', fg='#ffffff', font=("helvetica 18"), wraplength=360, justify="center")
+    label3.pack(padx=20, pady=20)
+    #Game
+    label4 = tk.Label(popup, text='Click Game to revise French Words', bg='#24292e', fg='#ffffff', font=("helvetica 18"), wraplength=360, justify="center")
+    label4.pack(padx=20, pady=20)
+    #Exit
+    label5 = tk.Label(popup, text='Click Exit to exit this app', bg='#24292e', fg='#ffffff', font=("helvetica 18"), wraplength=360, justify="center")
+    label5.pack(padx=20, pady=20)
 
     popup.mainloop()
 
@@ -65,7 +78,3 @@ exit_button.pack(side="bottom", pady=20)
 
 # Run the main event loop
 root.mainloop()
-
-
-
-### classes

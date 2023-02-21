@@ -1,5 +1,5 @@
 import tkinter as tk
-from windows import *
+from popup import *
 
 # Define the function to create a popup window for the "Flashcards" button
 def open_flashcards():
@@ -14,6 +14,7 @@ def open_translator():
 # Define the function to create a popup window for the "Game" button
 def open_game():
     # This is where you would put the code to create the "Game" popup window
+    GamePopup(root)
     print("Opening game popup window...")
 
 # Define the function to create a popup window for the "Help" button

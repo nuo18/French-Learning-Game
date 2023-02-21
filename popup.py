@@ -1,9 +1,9 @@
 from tkinter import ttk
 import tkinter as tk
 from googletrans import Translator
+import words
 
 
-#todo Incoparate Excel sheet and words
 #? For Flashcarp popup window
 class FlashcardPopup:
     def __init__(self, parent):
@@ -14,9 +14,11 @@ class FlashcardPopup:
         self.parent = parent
         
         # Create labels to display the French word and translation
-        self.word_label = tk.Label(self.popup, text='', font=('helvetica', 20), bg='#24292e', fg='white', borderwidth=2)
-        self.translation_label = tk.Label(self.popup, text='', font=('helvetica', 20), bg='#24292e', fg='white')
-        self.word_label.pack(pady=20)
+        #self.word_label = tk.Label(self.popup, text='', font=('helvetica', 30), height=5, bg='#24292e', fg='white')
+        #self.translation_label = tk.Label(self.popup, text='', font=('helvetica', 30), height=5, bg='#24292e', fg='#00FF0C')
+        self.word_label = tk.Label(self.popup, text='', font=('helvetica', 30), height=5, bg='#24292e', fg='white', borderwidth=2, relief="ridge", width=20)
+        self.translation_label = tk.Label(self.popup, text='', font=('helvetica', 30), height=5, bg='#24292e', fg='#00FF0C', borderwidth=2, relief="ridge", width=20)
+        self.word_label.pack(pady=10)
         self.translation_label.pack(pady=10)
         
         # Create buttons to show answer and go to the next word
@@ -26,8 +28,8 @@ class FlashcardPopup:
         self.next_word_button.pack(pady=10)
         
         # Initialize variables for word and translation
-        self.words = ['Bonjour', 'Comment allez-vous?', 'Je m\'appelle', 'Merci', 'Oui', 'Non', 'Au revoir']
-        self.translations = ['Hello', 'How are you?', 'My name is', 'Thank you', 'Yes', 'No', 'Goodbye']
+        self.words = words.fre_words
+        self.translations = words.eng_words
         self.word_index = -1
         
         # Go to the first word
@@ -44,6 +46,7 @@ class FlashcardPopup:
         self.translation_label.config(text='')
 
 
+
 #? For translator popup window
 class TranslatorPopup:
     def __init__(self, parent):
@@ -52,10 +55,6 @@ class TranslatorPopup:
         self.popup.geometry('400x600')
         self.popup.title("Translator")
         self.parent = parent
-        
-        #Show lable
-        #self.wel_label = tk.Label(self.popup, text='Translator', font=('helvetica', 20), bg='#24292e', fg='white')
-        #self.wel_label.pack(padx=10)
         
         #?Style for combobox
         self.style= ttk.Style()
@@ -110,12 +109,80 @@ class TranslatorPopup:
         self.dest_txt.delete(1.0, tk.END)
         self.dest_txt.insert(tk.END, output_text)
     
-    
-    def change(text="type", src="English", dest="French"):
+    def change(self, text="type", src="English", dest="French"):
         text1 = text
         src1 = src
         dest1 = dest
         trans = Translator() # calls the Translator class
         trans1 = trans.translate(text1, src=src1, dest=dest1)
-        
+
         return trans1.text
+
+
+#? For Game popup window
+class GamePopup:
+    def __init__(self, parent):
+        self.parent = parent
+        self.popup = tk.Toplevel(parent)
+        self.popup.configure(bg='#24292e')
+
+        self.words = ['Bonjour', 'Merci', 'Au revoir']
+        self.translations = ['Hello', 'Thank you', 'Goodbye']
+        self.current_word_index = 0
+        self.score = 0
+        self.high_score = self.load_high_score()
+
+        self.word_label = tk.Label(self.popup, text=self.words[self.current_word_index], font=('Arial', 24), bg='#24292e', fg='#ffffff')
+        self.word_label.pack(padx=20, pady=20)
+
+        self.answer_entry = tk.Entry(self.popup, font=('Arial', 18))
+        self.answer_entry.pack(padx=20, pady=20)
+
+        self.check_button = tk.Button(self.popup, text='Check', font=('Arial', 18), bg='#1c1c1c', fg='#ffffff', command=self.check_answer)
+        self.check_button.pack(padx=20, pady=20)
+
+        self.guess_button = tk.Button(self.popup, text='Next', font=('Arial', 18), bg='#1c1c1c', fg='#ffffff', command=self.next_que)
+        self.guess_button.pack(padx=20, pady=20)
+
+        self.feedback_label = tk.Label(self.popup, text='', font=('Arial', 18), bg='#24292e', fg='#ffffff')
+        self.feedback_label.pack(padx=20, pady=20)
+
+        self.score_label = tk.Label(self.popup, text=f'Score: {self.score}', font=('Arial', 18), bg='#24292e', fg='#ffffff')
+        self.score_label.pack(padx=20, pady=20)
+
+        self.high_score_label = tk.Label(self.popup, text=f'High Score: {self.high_score}', font=('Arial', 18), bg='#24292e', fg='#ffffff')
+        self.high_score_label.pack(padx=20, pady=20)
+
+    def load_high_score(self):
+        try:
+            with open('high_score.txt', 'r') as f:
+                high_score = int(f.read().strip())
+        except FileNotFoundError:
+            high_score = 0
+        return high_score
+
+    def check_answer(self):
+        answer = self.answer_entry.get()
+        if answer.lower() == self.translations[self.current_word_index].lower():
+            self.feedback_label.config(text='Correct!', fg='#00ff00')
+            self.score += 1
+            self.score_label.config(text=f'Score: {self.score}')
+        else:
+            self.feedback_label.config(text='Incorrect', fg='#ff0000')
+        self.answer_entry.delete(0, tk.END)
+
+    def next_que(self):
+        self.current_word_index = (self.current_word_index + 1) % len(self.words)
+        self.word_label.config(text=self.words[self.current_word_index])
+        self.feedback_label.config(text='')
+        self.answer_entry.delete(0, tk.END)
+
+    def __del__(self):
+        if self.score > self.high_score:
+            with open('high_score.txt', 'w') as f:
+                f.write(str(self.score))
+
+        
+        
+        
+        

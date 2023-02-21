@@ -116,6 +116,6 @@ class TranslatorPopup:
         src1 = src
         dest1 = dest
         trans = Translator() # calls the Translator class
-        trans1 = trans.translate(text, src=src1, dest=dest1)
-    
+        trans1 = trans.translate(text1, src=src1, dest=dest1)
+        
         return trans1.text

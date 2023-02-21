@@ -14,8 +14,6 @@ class FlashcardPopup:
         self.parent = parent
         
         # Create labels to display the French word and translation
-        #self.word_label = tk.Label(self.popup, text='', font=('helvetica', 30), height=5, bg='#24292e', fg='white')
-        #self.translation_label = tk.Label(self.popup, text='', font=('helvetica', 30), height=5, bg='#24292e', fg='#00FF0C')
         self.word_label = tk.Label(self.popup, text='', font=('helvetica', 30), height=5, bg='#24292e', fg='white', borderwidth=2, relief="ridge", width=20)
         self.translation_label = tk.Label(self.popup, text='', font=('helvetica', 30), height=5, bg='#24292e', fg='#00FF0C', borderwidth=2, relief="ridge", width=20)
         self.word_label.pack(pady=10)
@@ -70,7 +68,6 @@ class TranslatorPopup:
         self.source_txt.place(x=10,y=40,height=240,width=380)
         
         #button to translate
-        #todo add command
         self.trans_btn = tk.Button(self.popup, text="Translate", font=("helvetica", 13), bg="#034ea2", fg="white", command=self.translate)
         self.trans_btn.place(x=200, y=290)
         #button to clear text
@@ -183,3 +180,5 @@ class GamePopup:
         if self.score > self.high_score:
             with open('high_score.txt', 'w') as f:
                 f.write(str(self.score)) 
+
+#todo: 1) Add chatgpt words to remove plagarism 2)Make words randomized 

@@ -22,9 +22,9 @@ class FlashcardPopup:
         self.translation_label.pack(pady=10)
         
         # Create buttons to show answer and go to the next word
-        self.show_answer_button = tk.Button(self.popup, text='Show Answer', command=self.show_answer, bg='#393939', fg='white')
+        self.show_answer_button = tk.Button(self.popup, text='Show Answer', command=self.show_answer, bg='#0366d6', fg='white')
         self.show_answer_button.pack(pady=10)
-        self.next_word_button = tk.Button(self.popup, text='Go Next', command=self.go_next, bg='#393939', fg='white')
+        self.next_word_button = tk.Button(self.popup, text='Go Next', command=self.go_next, bg='#28a745', fg='white')
         self.next_word_button.pack(pady=10)
         
         # Initialize variables for word and translation
@@ -124,10 +124,11 @@ class GamePopup:
     def __init__(self, parent):
         self.parent = parent
         self.popup = tk.Toplevel(parent)
+        self.popup.geometry('400x600')
         self.popup.configure(bg='#24292e')
 
-        self.words = ['Bonjour', 'Merci', 'Au revoir']
-        self.translations = ['Hello', 'Thank you', 'Goodbye']
+        self.words = words.fre_words
+        self.translations = words.eng_words
         self.current_word_index = 0
         self.score = 0
         self.high_score = self.load_high_score()
@@ -138,10 +139,10 @@ class GamePopup:
         self.answer_entry = tk.Entry(self.popup, font=('Arial', 18))
         self.answer_entry.pack(padx=20, pady=20)
 
-        self.check_button = tk.Button(self.popup, text='Check', font=('Arial', 18), bg='#1c1c1c', fg='#ffffff', command=self.check_answer)
+        self.check_button = tk.Button(self.popup, text='Check', font=('Arial', 18), bg='#0366d6', fg='#ffffff', command=self.check_answer)
         self.check_button.pack(padx=20, pady=20)
 
-        self.guess_button = tk.Button(self.popup, text='Next', font=('Arial', 18), bg='#1c1c1c', fg='#ffffff', command=self.next_que)
+        self.guess_button = tk.Button(self.popup, text='Next', font=('Arial', 18), bg='#28a745', fg='#ffffff', command=self.next_que)
         self.guess_button.pack(padx=20, pady=20)
 
         self.feedback_label = tk.Label(self.popup, text='', font=('Arial', 18), bg='#24292e', fg='#ffffff')
@@ -168,8 +169,9 @@ class GamePopup:
             self.score += 1
             self.score_label.config(text=f'Score: {self.score}')
         else:
-            self.feedback_label.config(text='Incorrect', fg='#ff0000')
+            self.feedback_label.config(text=f'Incorrect : {self.translations[self.current_word_index]}', fg='#ff0000')
         self.answer_entry.delete(0, tk.END)
+        #Could add self.next_que in order to go to next question but it does not show right/wrong
 
     def next_que(self):
         self.current_word_index = (self.current_word_index + 1) % len(self.words)
@@ -180,9 +182,4 @@ class GamePopup:
     def __del__(self):
         if self.score > self.high_score:
             with open('high_score.txt', 'w') as f:
-                f.write(str(self.score))
-
-        
-        
-        
-        
+                f.write(str(self.score)) 

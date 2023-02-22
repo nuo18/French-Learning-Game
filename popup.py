@@ -2,7 +2,7 @@ from tkinter import ttk
 import tkinter as tk
 from googletrans import Translator
 import words
-
+import random
 
 #? For Flashcarp popup window
 class FlashcardPopup:
@@ -30,19 +30,22 @@ class FlashcardPopup:
         self.translations = words.eng_words
         self.word_index = -1
         
+        # Shuffle the order of the words and translations
+        self.word_order = list(range(len(self.words)))
+        random.shuffle(self.word_order)
+        
         # Go to the first word
         self.go_next()
 
     def show_answer(self):
         # Show the translation of the French word
-        self.translation_label.config(text=self.translations[self.word_index])
+        self.translation_label.config(text=self.translations[self.word_order[self.word_index]])
 
     def go_next(self):
         # Go to the next word and update labels
         self.word_index = (self.word_index + 1) % len(self.words)
-        self.word_label.config(text=self.words[self.word_index])
+        self.word_label.config(text=self.words[self.word_order[self.word_index]])
         self.translation_label.config(text='')
-
 
 
 #? For translator popup window
@@ -126,6 +129,12 @@ class GamePopup:
 
         self.words = words.fre_words
         self.translations = words.eng_words
+        # Problem sovled -- Use temp and zip to have same shuffle for both the lists
+        temp = list(zip(self.words, self.translations))
+        random.shuffle(temp)
+        self.words, self.translations = zip(*temp)
+        self.words, self.translations = list(self.words), list(self.translations)
+        # Variables to store score and highscore
         self.current_word_index = 0
         self.score = 0
         self.high_score = self.load_high_score()
@@ -162,13 +171,12 @@ class GamePopup:
     def check_answer(self):
         answer = self.answer_entry.get()
         if answer.lower() == self.translations[self.current_word_index].lower():
-            self.feedback_label.config(text='Correct!', fg='#00ff00')
+            self.feedback_label.config(text=f'Correct! : {self.translations[self.current_word_index]}', fg='#00ff00')
             self.score += 1
             self.score_label.config(text=f'Score: {self.score}')
         else:
             self.feedback_label.config(text=f'Incorrect : {self.translations[self.current_word_index]}', fg='#ff0000')
         self.answer_entry.delete(0, tk.END)
-        #Could add self.next_que in order to go to next question but it does not show right/wrong
 
     def next_que(self):
         self.current_word_index = (self.current_word_index + 1) % len(self.words)
@@ -179,6 +187,4 @@ class GamePopup:
     def __del__(self):
         if self.score > self.high_score:
             with open('high_score.txt', 'w') as f:
-                f.write(str(self.score)) 
-
-#todo: 1) Add chatgpt words to remove plagarism 2)Make words randomized 
+                f.write(str(self.score))

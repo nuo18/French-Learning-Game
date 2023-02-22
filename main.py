@@ -1,23 +1,22 @@
 import tkinter as tk
 from popup import *
 
-# Define the function to create a popup window for the "Flashcards" button
+#? Flashcard Popup
 def open_flashcards():
     FlashcardPopup(root)
     print("Opening flashcards popup window...")
 
-# Define the function to create a popup window for the "Translator" button
+#? Translator Popup
 def open_translator():
     TranslatorPopup(root)
     print("Opening translator window...")
 
-# Define the function to create a popup window for the "Game" button
+#? Game Popup
 def open_game():
-    # This is where you would put the code to create the "Game" popup window
     GamePopup(root)
     print("Opening game popup window...")
 
-# Define the function to create a popup window for the "Help" button
+#? Help Popup
 def open_help():
     popup = tk.Toplevel()
     popup.configure(bg='#24292e')

@@ -3,6 +3,7 @@ import tkinter as tk
 from googletrans import Translator
 import words
 import random
+from tkinter import messagebox
 
 #? For Flashcarp popup window
 class FlashcardPopup:
@@ -188,3 +189,45 @@ class GamePopup:
         if self.score > self.high_score:
             with open('high_score.txt', 'w') as f:
                 f.write(str(self.score))
+
+#?Popup to add words
+class AddWordsPopup:
+    def __init__(self, parent, words, translations):
+        self.parent = parent
+        self.popup = tk.Toplevel(parent)
+        self.popup.geometry('400x300')
+        self.popup.configure(bg='#24292e')
+
+        self.words = words
+        self.translations = translations
+
+        self.word_label = tk.Label(self.popup, text='Enter French Word:', font=('Arial', 18), bg='#24292e', fg='#ffffff')
+        self.word_label.pack(padx=20, pady=20)
+
+        self.word_entry = tk.Entry(self.popup, font=('Arial', 18))
+        self.word_entry.pack(padx=20, pady=20)
+
+        self.translation_label = tk.Label(self.popup, text='Enter English Translation:', font=('Arial', 18), bg='#24292e', fg='#ffffff')
+        self.translation_label.pack(padx=20, pady=20)
+
+        self.translation_entry = tk.Entry(self.popup, font=('Arial', 18))
+        self.translation_entry.pack(padx=20, pady=20)
+
+        self.add_button = tk.Button(self.popup, text='Add', font=('Arial', 18), bg='#28a745', fg='#ffffff', command=self.add_words)
+        self.add_button.pack(padx=20, pady=20)
+
+        self.close_button = tk.Button(self.popup, text='Close', font=('Arial', 18), bg='#dc3545', fg='#ffffff', command=self.popup.destroy)
+        self.close_button.pack(padx=20, pady=20)
+
+    def add_words(self):
+        word = self.word_entry.get()
+        translation = self.translation_entry.get()
+
+        if word and translation:
+            self.words.append(word)
+            self.translations.append(translation)
+            messagebox.showinfo(title='Success', message='Words added successfully!')
+            self.word_entry.delete(0, tk.END)
+            self.translation_entry.delete(0, tk.END)
+        else:
+            messagebox.showerror(title='Error', message='Please enter both a French word and its English translation.')

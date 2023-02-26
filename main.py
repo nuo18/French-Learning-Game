@@ -1,6 +1,5 @@
 import tkinter as tk
 from popup import *
-import words
 
 #? Flashcard Popup
 def open_flashcards():
@@ -16,10 +15,6 @@ def open_translator():
 def open_game():
     GamePopup(root)
     print("Opening game popup window...")
-
-#? AddWords Popup
-def open_add():
-    AddWordsPopup(root, words.fre_words, words.eng_words)
 
 #? Help Popup
 def open_help():
@@ -73,11 +68,6 @@ game_button.pack(pady=10)
 
 # Create the "Help" button
 help_button = tk.Button(button_frame, text="Help", command=open_help, fg="white", bg="#6f42c1", padx=20, pady=10, bd=0, activebackground="#563d7c")
-help_button.configure(relief="flat", overrelief="solid")
-help_button.pack(pady=10)
-
-# Create the "AddButton" button
-help_button = tk.Button(button_frame, text="Add Words", command=open_add, fg="white", bg="#6f42c1", padx=20, pady=10, bd=0, activebackground="#563d7c")
 help_button.configure(relief="flat", overrelief="solid")
 help_button.pack(pady=10)
 

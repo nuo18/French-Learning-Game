@@ -2,6 +2,8 @@ from tkinter import ttk
 import tkinter as tk
 from googletrans import Translator
 import words
+from words import add_word
+import test
 import random
 
 #? For Flashcarp popup window
@@ -125,6 +127,7 @@ class GamePopup:
         self.parent = parent
         self.popup = tk.Toplevel(parent)
         self.popup.geometry('400x600')
+        self.popup.title("Game")
         self.popup.configure(bg='#24292e')
 
         self.words = words.fre_words
@@ -171,7 +174,7 @@ class GamePopup:
     def check_answer(self):
         answer = self.answer_entry.get()
         if answer.lower() == self.translations[self.current_word_index].lower():
-            self.feedback_label.config(text=f'Correct! : {self.translations[self.current_word_index]}', fg='#00ff00')
+            self.feedback_label.config(text=f'Correct : {self.translations[self.current_word_index]}', fg='#00ff00')
             self.score += 1
             self.score_label.config(text=f'Score: {self.score}')
         else:
@@ -188,3 +191,14 @@ class GamePopup:
         if self.score > self.high_score:
             with open('high_score.txt', 'w') as f:
                 f.write(str(self.score))
+
+#? For Game popup window
+class AddWordPopup:
+    def __init__(self, parent):
+        self.parent = parent
+        self.popup = tk.Toplevel(parent)
+        self.popup.geometry('400x600')
+        self.popup.title("Add Words")
+        self.popup.configure(bg='#24292e')
+        
+        test.add_stuff("Hello", "Negro")

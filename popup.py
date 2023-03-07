@@ -2,8 +2,6 @@ from tkinter import ttk
 import tkinter as tk
 from googletrans import Translator
 import words
-from words import add_word
-import test
 import random
 
 #? For Flashcarp popup window
@@ -201,4 +199,4 @@ class AddWordPopup:
         self.popup.title("Add Words")
         self.popup.configure(bg='#24292e')
         
-        test.add_stuff("Hello", "Negro")
+        words.add_stuff()

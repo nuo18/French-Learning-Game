@@ -1,9 +1,9 @@
 from tkinter import ttk
 import tkinter as tk
 from googletrans import Translator
-#import words
-#from words import add_word
-from test import add_word
+import words
+from words import add_word
+import test
 import random
 
 #? For Flashcarp popup window
@@ -192,7 +192,7 @@ class GamePopup:
             with open('high_score.txt', 'w') as f:
                 f.write(str(self.score))
 
-#? For Add popup window
+#? For Game popup window
 class AddWordPopup:
     def __init__(self, parent):
         self.parent = parent
@@ -200,29 +200,5 @@ class AddWordPopup:
         self.popup.geometry('400x600')
         self.popup.title("Add Words")
         self.popup.configure(bg='#24292e')
-
-        # French Word Label
-        self.fre_label = tk.Label(self.popup, text="French Word", font=('Arial', 30), bg='#24292e', fg='#ffffff')
-        self.fre_label.pack(padx=20, pady=20)
-
-        # French Word Entry
-        self.fre_entry = tk.Entry(self.popup, font=('helvetica', 18))
-        self.fre_entry.pack(padx=20, pady=20)
-
-        # English Word Label
-        self.eng_label = tk.Label(self.popup, text="English Translation", font=('Arial', 30), bg='#24292e', fg='#ffffff')
-        self.eng_label.pack(padx=20, pady=20)
-
-        # English Word Entry
-        self.eng_entry = tk.Entry(self.popup, font=('helvetica', 18))
-        self.eng_entry.pack(padx=20, pady=20)
-
-        # Add Word Button
-        self.add_button = tk.Button(self.popup, text='Add Word', font=('Arial', 18), bg='#0366d6', fg='#ffffff', command=self.add_word)
-        self.add_button.pack(padx=20, pady=20)
-
-    def add_word(self):
-        fre_word = self.fre_entry.get()
-        eng_word = self.eng_entry.get()
-        add_word(fre_word, eng_word)
-        self.popup.destroy()
+        
+        test.add_stuff("Hello", "Negro")

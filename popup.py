@@ -3,6 +3,7 @@ import tkinter as tk
 from googletrans import Translator
 import words
 import random
+import pandas as pd
 
 #? For Flashcarp popup window
 class FlashcardPopup:
@@ -140,25 +141,25 @@ class GamePopup:
         self.score = 0
         self.high_score = self.load_high_score()
 
-        self.word_label = tk.Label(self.popup, text=self.words[self.current_word_index], font=('Arial', 24), bg='#24292e', fg='#ffffff')
+        self.word_label = tk.Label(self.popup, text=self.words[self.current_word_index], font=('helvetica', 24), bg='#24292e', fg='#ffffff')
         self.word_label.pack(padx=20, pady=20)
 
-        self.answer_entry = tk.Entry(self.popup, font=('Arial', 18))
+        self.answer_entry = tk.Entry(self.popup, font=('helvetica', 18))
         self.answer_entry.pack(padx=20, pady=20)
 
-        self.check_button = tk.Button(self.popup, text='Check', font=('Arial', 18), bg='#0366d6', fg='#ffffff', command=self.check_answer)
+        self.check_button = tk.Button(self.popup, text='Check', font=('helvetica', 18), bg='#0366d6', fg='#ffffff', command=self.check_answer)
         self.check_button.pack(padx=20, pady=20)
 
-        self.guess_button = tk.Button(self.popup, text='Next', font=('Arial', 18), bg='#28a745', fg='#ffffff', command=self.next_que)
-        self.guess_button.pack(padx=20, pady=20)
+        self.next_button = tk.Button(self.popup, text='Next', font=('helvetica', 18), bg='#28a745', fg='#ffffff', command=self.next_que)
+        self.next_button.pack(padx=20, pady=20)
 
-        self.feedback_label = tk.Label(self.popup, text='', font=('Arial', 18), bg='#24292e', fg='#ffffff')
+        self.feedback_label = tk.Label(self.popup, text='', font=('helvetica', 18), bg='#24292e', fg='#ffffff')
         self.feedback_label.pack(padx=20, pady=20)
 
-        self.score_label = tk.Label(self.popup, text=f'Score: {self.score}', font=('Arial', 18), bg='#24292e', fg='#ffffff')
+        self.score_label = tk.Label(self.popup, text=f'Score: {self.score}', font=('helvetica', 18), bg='#24292e', fg='#ffffff')
         self.score_label.pack(padx=20, pady=20)
 
-        self.high_score_label = tk.Label(self.popup, text=f'High Score: {self.high_score}', font=('Arial', 18), bg='#24292e', fg='#ffffff')
+        self.high_score_label = tk.Label(self.popup, text=f'High Score: {self.high_score}', font=('helvetica', 18), bg='#24292e', fg='#ffffff')
         self.high_score_label.pack(padx=20, pady=20)
 
     def load_high_score(self):
@@ -171,7 +172,9 @@ class GamePopup:
 
     def check_answer(self):
         answer = self.answer_entry.get()
-        if answer.lower() == self.translations[self.current_word_index].lower():
+        print(answer.lower())
+        print(self.translations[self.current_word_index].lower())
+        if answer.lower() == self.translations[self.current_word_index].lower()[1:]:
             self.feedback_label.config(text=f'Correct : {self.translations[self.current_word_index]}', fg='#00ff00')
             self.score += 1
             self.score_label.config(text=f'Score: {self.score}')
@@ -190,7 +193,7 @@ class GamePopup:
             with open('high_score.txt', 'w') as f:
                 f.write(str(self.score))
 
-#? For Game popup window
+#? For Add Words popup window
 class AddWordPopup:
     def __init__(self, parent):
         self.parent = parent
@@ -199,4 +202,56 @@ class AddWordPopup:
         self.popup.title("Add Words")
         self.popup.configure(bg='#24292e')
         
-        words.add_stuff()
+        # French Word Label
+        self.frelable = tk.Label(self.popup, text="French Word", font=('helvetica', 25), bg='#24292e', fg='white')
+        self.frelable.pack(pady=20)
+        #Input
+        self.fre_entry = tk.Entry(self.popup, font=('helvetica', 18))
+        self.fre_entry.pack(pady=20)
+        
+        # English Word Label
+        self.englable = tk.Label(self.popup, text="English Word", font=('helvetica', 25), bg='#24292e', fg='white')
+        self.englable.pack(pady=20)
+        #Input
+        self.eng_entry = tk.Entry(self.popup, font=('helvetica', 18))
+        self.eng_entry.pack(pady=20)
+        
+        #Buttons
+        self.add_btn = tk.Button(self.popup, text="Add Words", font=("helvetica", 13), bg="#28a745", fg="white", pady=10, padx=20, command=self.add_words)
+        self.add_btn.pack(pady=20)
+        
+        self.clear_btn = tk.Button(self.popup, text="Clear", font=("helvetica", 13), bg="#d73a49", fg="white", pady=10, padx=20, command=self.clear)
+        self.clear_btn.pack(pady=20)
+        
+        #Feedback label
+        self.feedback = tk.Label(self.popup, text="", font=('helvetica', 25), bg='#24292e', fg='white')
+        self.feedback.pack(pady=20)
+        
+        
+    #Functions
+    def clear(self):
+        self.fre_entry.delete(0, 'end')
+        self.eng_entry.delete(0, 'end')
+    
+    def add_words(self):
+        # Read existing data from excel file
+        df = pd.read_excel('words_database.xlsx')
+    
+        # Get user input
+        french_word = self.fre_entry.get()
+        english_word = self.eng_entry.get()
+        
+        # Add user input to dataframe
+        if len(french_word) == 0 or len(english_word) == 0:
+            self.feedback.config(text="Please enter both words", fg="#d73a49")
+        else:
+            new_row = {'French': french_word, 'English': english_word}
+            df = df.append(new_row, ignore_index=True)
+            # Save dataframe to excel file
+            df.to_excel('words_database.xlsx', index=False)
+            
+            # Message
+            self.feedback.config(text="Word Added Successfully", fg="#28a745")
+                    
+            # Clear input fields
+            self.clear()

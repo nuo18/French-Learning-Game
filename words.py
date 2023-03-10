@@ -1,9 +1,9 @@
-# French Words
-fre_words = ['bonjour', 'au revoir', 'merci', 'oui', 'non', 's\'il vous plaît', 'de rien', 'pardon', 'excusez-moi', 'bienvenue', 'comment ça va?', 'ça va bien', 'ça va mal', 'ça va', 'très bien', 'aujourd\'hui', 'demain', 'hier', 'maintenant', 'toujours', 'jamais', 'quelquefois', 'beaucoup', 'un peu', 'trop', 'vraiment', 'probablement', 'peut-être', 'toujours', 'souvent', 'parfois', 'jamais', 'vite', ' lentement', 'ici', 'là-bas', 'bientôt', 'maintenant', 'tôt', 'tard', 'déjà', 'encore', 'ensemble', 'seul', 'chaud', 'froid', 'beau', 'moche', 'grand', 'petit', 'gros', 'mince', 'propre', 'sale', 'neuf', 'vieux', 'cher', 'bon marché', 'triste', 'heureux', 'drôle', 'sérieux', 'difficile', 'facile', 'fort', 'faible', 'juste', 'faux', 'bon', 'mauvais', 'jeune', 'vieux', 'principal', 'secondaire', 'libre', 'occupé', 'différent', 'semblable', 'fort', 'faible', 'haut', 'bas', 'à droite', 'à gauche', 'pourquoi', 'comment', 'combien', 'où', 'quand', 'qui', 'quoi', 'que', 'le', 'la', 'les', 'un', 'une', 'des']
-#English Words
-eng_words = ['hello', 'goodbye', 'thank you', 'yes', 'no', 'please', 'you\'re welcome', 'sorry', 'excuse me', 'welcome', 'how are you?', 'I\'m good', 'I\'m bad', 'I\'m okay', 'very good', 'today', 'tomorrow', 'yesterday', 'now', 'always', 'never', 'sometimes', 'a lot', 'a little', 'too', 'really', 'probably', 'maybe', 'always', 'often', 'sometimes', 'never', 'quickly', 'slowly', 'here', 'there', 'soon', 'now', 'early', 'late', 'already', 'again', 'together', 'alone', 'hot', 'cold', 'beautiful', 'ugly', 'big', 'small', 'fat', 'thin', 'clean', 'dirty', 'new', 'old', 'expensive', 'cheap', 'sad', 'happy', 'funny', 'serious', 'difficult', 'easy', 'strong', 'weak', 'fair', 'false', 'good', 'bad', 'young', 'old', 'main', 'secondary', 'free', 'busy', 'different', 'similar', 'strong', 'weak', 'high', 'low', 'right', 'left', 'why', 'how', 'how much', 'where', 'when', 'who', 'what', 'that', 'the', 'a', 'some']
+import pandas as pd
 
-# Function to add words
-def add_word(f, e):
-    fre_words.append(f)
-    eng_words.append(e)
+#reading the excel file
+excel_file = pd.read_excel('words_database.xlsx')
+
+# French Words
+fre_words = excel_file['French'].tolist()
+#English Words
+eng_words = excel_file['English'].tolist()

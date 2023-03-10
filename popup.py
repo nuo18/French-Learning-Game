@@ -58,45 +58,48 @@ class TranslatorPopup:
         self.popup.title("Translator")
         self.parent = parent
         
-        #?Style for combobox
+        # Style for combobox
         self.style= ttk.Style()
         self.style.theme_use('clam')
         self.style.configure("TCombobox", fieldbackground= "#28a745", background= "#6f42c1")
         
-        #input text label
+        # Input text label
         self.source_lb = tk.Label(self.popup, text="Input Text", font=('helvetica', 18), bg='#24292e', fg='white')
         self.source_lb.place(x=10, y=10)
         
-        #this is where the user inputs their text
+        # This is where the user inputs their text
         self.source_txt = tk.Text(self.popup,font=("helvetica",12), background="#24292e", foreground="white")
         self.source_txt.place(x=10,y=40,height=240,width=380)
         
-        #button to translate
+        # Button to translate
         self.trans_btn = tk.Button(self.popup, text="Translate", font=("helvetica", 13), bg="#034ea2", fg="white", command=self.translate)
         self.trans_btn.place(x=200, y=290)
-        #button to clear text
+        # Button to clear text
         self.clear_btn = tk.Button(self.popup, text="Clear", font=("helvetica", 13), bg="#d73a49", fg="white", command=self.clear)
         self.clear_btn.place(x=300, y=290)
         
-        #output text label
+        # Output text label
         self.dest_lb = tk.Label(self.popup, text="Output Text", font=('helvetica', 18), bg='#24292e', fg='white')
         self.dest_lb.place(x=10, y=320)
         
-        #this is where the text translated is shown
+        # This is where the translated text is shown
         self.dest_txt = tk.Text(self.popup,font=("helvetica",12), background="#24292e", foreground="white")
         self.dest_txt.place(x=10,y=350,height=240,width=380)
         
-        self.languages = ["English", "French"]
+        self.languages = ["English", "French"]  # Languages
         
-        #The drop down menu to select language
+        # The drop down menu to source language
         self.sor_list = ttk.Combobox(self.popup, value=self.languages)
         self.sor_list.place(x=290, y=20, height=20, width=100)
         self.sor_list.set("English")
         
-        
+        # The drop down menu to select destination language
         self.dest_list = ttk.Combobox(self.popup, value=self.languages)
         self.dest_list.place(x=290, y=330, height=20, width=100)
         self.dest_list.set("French")
+    
+    # Referenced https://pypi.org/project/googletrans/ for understanding the API
+    # Inspiration: https://www.youtube.com/watch?v=SSnZSr_6e_A
     
     def clear(self):
         self.source_txt.delete(1.0, 'end')
@@ -165,29 +168,32 @@ class GamePopup:
     def load_high_score(self):
         try:
             with open('high_score.txt', 'r') as f:
-                high_score = int(f.read().strip())
+                high_score = int(f.read().strip()) # Reads the high score from the file and converts it to an integer
         except FileNotFoundError:
-            high_score = 0
+            high_score = 0 # If the file doesn't exist, sets the high score to 0
         return high_score
-
+    
+    # This function checks the user's answer and updates the score accordingly
     def check_answer(self):
         answer = self.answer_entry.get()
-        print(answer.lower())
-        print(self.translations[self.current_word_index].lower())
+        # Using if and else as the user might accidently enter empty field
         if answer.lower() == self.translations[self.current_word_index].lower()[1:]:
             self.feedback_label.config(text=f'Correct : {self.translations[self.current_word_index]}', fg='#00ff00')
             self.score += 1
             self.score_label.config(text=f'Score: {self.score}')
         else:
             self.feedback_label.config(text=f'Incorrect : {self.translations[self.current_word_index]}', fg='#ff0000')
+        # deleting entries
         self.answer_entry.delete(0, tk.END)
-
+    
+    # Next Question button command
     def next_que(self):
         self.current_word_index = (self.current_word_index + 1) % len(self.words)
         self.word_label.config(text=self.words[self.current_word_index])
         self.feedback_label.config(text='')
         self.answer_entry.delete(0, tk.END)
-
+    
+    # Checking if current score is larger than the high score
     def __del__(self):
         if self.score > self.high_score:
             with open('high_score.txt', 'w') as f:

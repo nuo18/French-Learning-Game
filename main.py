@@ -1,6 +1,8 @@
 import tkinter as tk
 from popup import *
 
+# Tkinter docs: https://docs.python.org/3/library/tkinter.html
+
 #? Flashcard Popup
 def open_flashcards():
     FlashcardPopup(root)
@@ -30,6 +32,9 @@ root.configure(bg="#24292e")
 # Create a frame to hold the buttons
 button_frame = tk.Frame(root, bg="#24292e")
 button_frame.pack(pady=30)
+
+# Buttons colours and background theme inspired from Github Theme
+# Colour codes taken from https://www.designpieces.com/palette/github-color-palette-hex-and-rgb/
 
 # Create the "Flashcards" button
 flashcards_button = tk.Button(button_frame, text="Flashcards", command=open_flashcards, fg="white", bg="#0366d6", padx=20, pady=10, bd=0, activebackground="#034ea2")

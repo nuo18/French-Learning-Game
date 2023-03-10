@@ -2,6 +2,7 @@ import tkinter as tk
 from popup import *
 
 # Tkinter docs: https://docs.python.org/3/library/tkinter.html
+# Converted to .exe using https://www.youtube.com/watch?v=UZX5kH72Yx4
 
 #? Flashcard Popup
 def open_flashcards():

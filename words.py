@@ -1,7 +1,7 @@
 import pandas as pd
 
 #reading the excel file
-excel_file = pd.read_excel(r'C:\Users\Vedang Kadam\Desktop\myProjects\French-Learning-Game\words_database.xlsx')
+excel_file = pd.read_excel('words_database.xlsx')
 
 # French Words from the Excel sheet
 fre_words = excel_file['French'].tolist()

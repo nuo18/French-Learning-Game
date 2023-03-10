@@ -1,7 +1,22 @@
 import tkinter as tk
 from popup import *
+import sys, os
 
 # Tkinter docs: https://docs.python.org/3/library/tkinter.html
+# Icon taken from: https://www.languagemagazine.com/2019/07/07/macron-called-to-protect-french/
+
+# Pyinstaller error
+# https://stackoverflow.com/questions/31836104/pyinstaller-and-onefile-how-to-include-an-image-in-the-exe-file
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
+
 
 #? Flashcard Popup
 def open_flashcards():

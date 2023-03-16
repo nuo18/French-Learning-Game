@@ -99,7 +99,7 @@ class TranslatorPopup:
         self.dest_list.set("French")
     
     # Referenced https://pypi.org/project/googletrans/ for understanding the API
-    # Inspiration: https://www.youtube.com/watch?v=SSnZSr_6e_A
+    # Based on: https://www.youtube.com/watch?v=SSnZSr_6e_A
     
     def clear(self):
         self.source_txt.delete(1.0, 'end')
@@ -134,7 +134,8 @@ class GamePopup:
 
         self.words = words.fre_words
         self.translations = words.eng_words
-        # Problem sovled -- Use temp and zip to have same shuffle for both the lists
+        # Use temp and zip to have same shuffle for both the lists
+        # Based upon sol. in: https://www.geeksforgeeks.org/python-shuffle-two-lists-with-same-order/
         temp = list(zip(self.words, self.translations))
         random.shuffle(temp)
         self.words, self.translations = zip(*temp)
@@ -211,30 +212,30 @@ class AddWordPopup:
         # French Word Label
         self.frelable = tk.Label(self.popup, text="French Word", font=('helvetica', 25), bg='#24292e', fg='white')
         self.frelable.pack(pady=20)
-        #Input
+        # Input
         self.fre_entry = tk.Entry(self.popup, font=('helvetica', 18))
         self.fre_entry.pack(pady=20)
         
         # English Word Label
         self.englable = tk.Label(self.popup, text="English Word", font=('helvetica', 25), bg='#24292e', fg='white')
         self.englable.pack(pady=20)
-        #Input
+        # Input
         self.eng_entry = tk.Entry(self.popup, font=('helvetica', 18))
         self.eng_entry.pack(pady=20)
         
-        #Buttons
+        # Buttons
         self.add_btn = tk.Button(self.popup, text="Add Words", font=("helvetica", 13), bg="#28a745", fg="white", pady=10, padx=20, command=self.add_words)
         self.add_btn.pack(pady=20)
         
         self.clear_btn = tk.Button(self.popup, text="Clear", font=("helvetica", 13), bg="#d73a49", fg="white", pady=10, padx=20, command=self.clear)
         self.clear_btn.pack(pady=20)
         
-        #Feedback label
+        # Feedback label
         self.feedback = tk.Label(self.popup, text="", font=('helvetica', 25), bg='#24292e', fg='white')
         self.feedback.pack(pady=20)
         
         
-    #Functions
+    # Functions
     def clear(self):
         self.fre_entry.delete(0, 'end')
         self.eng_entry.delete(0, 'end')

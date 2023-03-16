@@ -9,3 +9,4 @@ fre_words = excel_file['French'].tolist()
 eng_words = excel_file['English'].tolist()
 
 # Learning Pandas: https://www.w3schools.com/python/pandas/default.asp
+# Pandas documentation: https://pandas.pydata.org/docs/
